@@ -25,10 +25,11 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/products", method = RequestMethod.POST)
-    public String createProduct(@ModelAttribute ProductModel productModel) {
+    public String createProduct(@ModelAttribute ProductModel productModel, Model model) {
 
         productService.createProduct(productModel);
 
+        model.addAttribute("productModel", new ProductModel());
 
         return "product-form";
     }
