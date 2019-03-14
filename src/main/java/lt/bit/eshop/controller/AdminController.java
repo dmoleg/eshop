@@ -5,10 +5,12 @@ import lt.bit.eshop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/admin")
@@ -25,11 +27,17 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/products", method = RequestMethod.POST)
-    public String createProduct(@ModelAttribute ProductModel productModel, Model model) {
+    public String createProduct(@Valid @ModelAttribute ProductModel productModel, BindingResult bindingResult, Model model) {
 
-        productService.createProduct(productModel);
 
-        model.addAttribute("productModel", new ProductModel());
+        System.out.println(bindingResult.hasErrors());
+
+        if (!bindingResult.hasErrors()) {
+            productService.createProduct(productModel);
+            model.addAttribute("productModel", new ProductModel());
+
+            return "redirect:products";
+        }
 
         return "product-form";
     }

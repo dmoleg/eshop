@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>Title</title>
+    <link href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -13,6 +14,7 @@
             <div class="form-group">
                 <label for="name">Product name</label>
                 <form:input path="name" cssClass="form-control" />
+                <form:errors path="name" cssStyle="color: red" />
             </div>
             <div class="form-group">
                 <label form="description">Product description</label>

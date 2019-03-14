@@ -1,6 +1,7 @@
 package lt.bit.eshop.entity;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

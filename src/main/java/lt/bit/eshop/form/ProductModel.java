@@ -1,7 +1,10 @@
 package lt.bit.eshop.form;
 
+import javax.validation.constraints.NotBlank;
+
 public class ProductModel {
 
+    @NotBlank(message = "Names is required")
     private String name;
 
     private String description;
