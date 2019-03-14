@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -19,14 +20,29 @@ public class AdminController {
     @Autowired
     private ProductService productService;
 
-    @RequestMapping("/products")
+
+    @RequestMapping("/products/create")
     public String productForm(Model model) {
+
         model.addAttribute("productModel", new ProductModel());
 
         return "product-form";
     }
 
-    @RequestMapping(value = "/products", method = RequestMethod.POST)
+
+    @RequestMapping("/products")
+    public String products(Model model) {
+
+        model.addAttribute("productModel", new ProductModel());
+
+        List<ProductModel> productModelList = this.productService.getProducts();
+
+        model.addAttribute("products", productModelList);
+
+        return "products-list";
+    }
+
+    @RequestMapping(value = "/products/create", method = RequestMethod.POST)
     public String createProduct(@Valid @ModelAttribute ProductModel productModel, BindingResult bindingResult, Model model) {
 
 

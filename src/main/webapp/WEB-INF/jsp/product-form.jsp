@@ -18,7 +18,12 @@
             </div>
             <div class="form-group">
                 <label form="description">Product description</label>
-                <form:input path="description" cssClass="form-control" />
+                <form:textarea rows="2" cols="20" path="description" cssClass="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="price">Product price</label>
+                <form:input path="price" cssClass="form-control" />
+                <form:errors path="price" cssStyle="color: red" />
             </div>
             <form:button class="btn btn-primary">Create</form:button>
         </form:form>
