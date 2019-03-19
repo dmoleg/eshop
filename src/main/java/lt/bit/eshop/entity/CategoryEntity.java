@@ -12,6 +12,16 @@ public class CategoryEntity {
 
     private String name;
 
+    private String slug;
+
+    public CategoryEntity() {
+    }
+
+    public CategoryEntity(String name, String slug) {
+        this.name = name;
+        this.slug = slug;
+    }
+
     public Long getId() {
         return id;
     }
@@ -26,5 +36,13 @@ public class CategoryEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 }

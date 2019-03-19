@@ -11,7 +11,7 @@ public class ProductModel {
     @NotBlank(message = "Names is required")
     private String name;
 
-    @Length(min = 10, max = 100, message = "Between 10 and 100 symbols")
+    @Length(min = 10, max = 1000, message = "Between 10 and 100 symbols")
     private String description;
 
     @NotNull(message = "Price is required")

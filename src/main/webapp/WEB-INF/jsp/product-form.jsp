@@ -19,6 +19,7 @@
             <div class="form-group">
                 <label form="description">Product description</label>
                 <form:textarea rows="2" cols="20" path="description" cssClass="form-control" />
+                <form:errors path="description" cssStyle="color: red"/>
             </div>
             <div class="form-group">
                 <label for="price">Product price</label>
