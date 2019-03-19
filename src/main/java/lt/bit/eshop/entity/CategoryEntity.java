@@ -1,5 +1,7 @@
 package lt.bit.eshop.entity;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,6 +14,7 @@ public class CategoryEntity {
 
     private String name;
 
+    @Column(unique = true)
     private String slug;
 
     public CategoryEntity() {

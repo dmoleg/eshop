@@ -63,4 +63,19 @@ public class ProductService {
                 .map(CategoryModel::new)
                 .collect(Collectors.toList());
     }
+
+    public CategoryEntity findCategory(String categorySlug) {
+
+        return categoryRepository.findBySlug(categorySlug);
+    }
+
+    public List<ProductModel> getCategoryProducst(CategoryEntity categoryEntity) {
+        List<Product> products = productRepository.findByCategory(categoryEntity);
+
+
+        return products.stream()
+                .map(ProductModel::new)
+                .collect(Collectors.toList());
+
+    }
 }

@@ -1,6 +1,7 @@
 package lt.bit.eshop.controller;
 
 import com.sun.org.apache.xpath.internal.operations.Mod;
+import lt.bit.eshop.entity.CategoryEntity;
 import lt.bit.eshop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +29,9 @@ public class ProductsController {
     @GetMapping("/{categorySlug}")
     public String products(@PathVariable String categorySlug, Model model) {
 
+        CategoryEntity categoryEntity = productService.findCategory(categorySlug);
         model.addAttribute("categories", productService.getCategories());
+        model.addAttribute("products", productService.getCategoryProducst(categoryEntity));
 
         return "products-list";
     }
