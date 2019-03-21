@@ -36,6 +36,7 @@ public class AdminController {
     public String editProductForm(@PathVariable Long productId, Model model) {
 
         model.addAttribute("error", false);
+        model.addAttribute("categories", productService.getCategories());
         try {
             model.addAttribute("productModel", productService.getProductById(productId));
         } catch (ProductNotFound e) {
@@ -56,6 +57,7 @@ public class AdminController {
         List<ProductModel> productModelList = this.productService.getAllProducts();
 
         model.addAttribute("products", productModelList);
+        model.addAttribute("categories", productService.getCategories());
 
         return "products-list";
     }

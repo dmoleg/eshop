@@ -19,11 +19,14 @@ public class ProductModel {
     @DecimalMin(value = "0.1", inclusive = true, message = "Min value 0.1")
     private Double price;
 
+    private Long categoryId;
+
     public ProductModel(Product entity) {
         this.setId(entity.getId());
         this.setName(entity.getName());
         this.setDescription(entity.getDescription());
         this.setPrice(entity.getPrice());
+        this.setCategoryId(entity.getCategory().getId());
     }
 
     public ProductModel() {
@@ -59,5 +62,13 @@ public class ProductModel {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 }

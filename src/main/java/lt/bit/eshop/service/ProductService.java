@@ -9,6 +9,7 @@ import lt.bit.eshop.repository.CategoryRepository;
 import lt.bit.eshop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -34,12 +35,7 @@ public class ProductService {
         productEntity.setId(productModel.getId());
         productEntity.setName(productModel.getName());
         productEntity.setDescription(productModel.getDescription());
-
-        CategoryEntity newCategory = new CategoryEntity();
-        newCategory.setId((long) 1);
-        newCategory.setName("New category");
-
-        productEntity.setCategory(newCategory);
+        productEntity.setCategory(getCategoryById(productModel.getCategoryId()));
         productEntity.setPrice(productModel.getPrice());
 
         this.productRepository.save(productEntity);
@@ -47,7 +43,9 @@ public class ProductService {
 
     public List<ProductModel> getAllProducts() {
 
-        List<Product> products = (List<Product>) this.productRepository.findAll();
+        Sort sort = new Sort(Sort.Direction.DESC, "price");
+
+        List<Product> products = (List<Product>) this.productRepository.findAll(sort);
 
         return products.stream().map(ProductModel::new).collect(Collectors.toList());
     }
@@ -76,7 +74,7 @@ public class ProductService {
         return categoryRepository.findBySlug(categorySlug);
     }
 
-    public List<ProductModel> getCategoryProducst(CategoryEntity categoryEntity) {
+    public List<ProductModel> getCategoryProducts(CategoryEntity categoryEntity) {
         List<Product> products = productRepository.findByCategory(categoryEntity);
 
 
@@ -94,5 +92,11 @@ public class ProductService {
         }
 
         return new ProductModel(productOptional.get());
+    }
+
+    public CategoryEntity getCategoryById(Long id) {
+        Optional<CategoryEntity> categoryOptional = categoryRepository.findById(id);
+
+        return categoryOptional.get();
     }
 }

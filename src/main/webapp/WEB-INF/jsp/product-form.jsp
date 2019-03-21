@@ -26,7 +26,11 @@
                 <form:input path="price" cssClass="form-control" />
                 <form:errors path="price" cssStyle="color: red" />
             </div>
-            <form:hidden path="id"></form:hidden>
+            <div class="form-group">
+                <label for="categoryId">Product category</label>
+                <form:select path="categoryId" items="${categories}" itemLabel="name" itemValue="id"/>
+            </div>
+            <form:hidden path="id" />
             <form:button class="btn btn-primary">Create</form:button>
         </form:form>
     </div>

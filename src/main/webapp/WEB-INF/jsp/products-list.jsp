@@ -17,6 +17,18 @@
         <div class="row">
             <div class="col-2">
                 <ul class="list-group">
+                    <li class="list-group-item">
+                        <c:choose>
+                            <c:when test="${not empty slug}">
+                                <a href="/products">All products</a>
+                            </c:when>
+                            <c:otherwise>
+                                <span class="badge badge-primary">
+                                    All products
+                                </span>
+                            </c:otherwise>
+                        </c:choose>
+                    </li>
                     <c:forEach items="${categories}" var="category">
                         <li class="list-group-item">
                             <c:choose>
@@ -26,7 +38,7 @@
                                     </a>
                                 </c:when>
                                 <c:otherwise>
-                                    <span>${category.name}</span>
+                                    <span class="badge badge-primary">${category.name}</span>
                                 </c:otherwise>
                             </c:choose>
                         </li>
@@ -41,6 +53,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">${product.name}</h5>
+                                        <div class="badge badge-info">${product.price}</div>
                                         <a href="/admin/products/edit/${product.id}">Edit</a>
                                     </div>
                                 </div>
