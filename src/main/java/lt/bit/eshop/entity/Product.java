@@ -16,6 +16,8 @@ public class Product {
 
     private String description;
 
+    private Double price;
+
     @ManyToOne
     private CategoryEntity category;
 
@@ -49,5 +51,13 @@ public class Product {
 
     public void setCategory(CategoryEntity category) {
         this.category = category;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

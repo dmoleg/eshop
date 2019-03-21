@@ -19,9 +19,16 @@
                 <ul class="list-group">
                     <c:forEach items="${categories}" var="category">
                         <li class="list-group-item">
-                            <a href="/products/${category.slug}">
-                                ${category.name}
-                            </a>
+                            <c:choose>
+                                <c:when test="${!category.slug.equals(slug)}">
+                                    <a href="/products/${category.slug}">
+                                        ${category.name}
+                                    </a>
+                                </c:when>
+                                <c:otherwise>
+                                    <span>${category.name}</span>
+                                </c:otherwise>
+                            </c:choose>
                         </li>
                     </c:forEach>
                 </ul>
@@ -34,6 +41,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">${product.name}</h5>
+                                        <a href="/admin/products/edit/${product.id}">Edit</a>
                                     </div>
                                 </div>
                             </div>

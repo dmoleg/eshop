@@ -1,5 +1,6 @@
 package lt.bit.eshop.service;
 
+import lt.bit.eshop.ProductNotFound;
 import lt.bit.eshop.entity.CategoryEntity;
 import lt.bit.eshop.entity.Product;
 import lt.bit.eshop.form.CategoryModel;
@@ -9,9 +10,13 @@ import lt.bit.eshop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.springframework.web.client.HttpClientErrorException.*;
 
 @Service
 public class ProductService {
@@ -26,6 +31,7 @@ public class ProductService {
 
         Product productEntity = new Product();
 
+        productEntity.setId(productModel.getId());
         productEntity.setName(productModel.getName());
         productEntity.setDescription(productModel.getDescription());
 
@@ -34,6 +40,7 @@ public class ProductService {
         newCategory.setName("New category");
 
         productEntity.setCategory(newCategory);
+        productEntity.setPrice(productModel.getPrice());
 
         this.productRepository.save(productEntity);
     }
@@ -77,5 +84,15 @@ public class ProductService {
                 .map(ProductModel::new)
                 .collect(Collectors.toList());
 
+    }
+
+    public ProductModel getProductById(Long id) throws NotFound, ProductNotFound {
+        Optional<Product> productOptional = productRepository.findById(id);
+
+        if (!productOptional.isPresent()) {
+            throw new ProductNotFound("Product not found");
+        }
+
+        return new ProductModel(productOptional.get());
     }
 }

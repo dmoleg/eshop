@@ -10,7 +10,7 @@
 <h1>Product form</h1>
 <div class="container">
     <div class="row">
-        <form:form method="POST" modelAttribute="productModel">
+        <form:form method="POST" action="/admin/products" modelAttribute="productModel">
             <div class="form-group">
                 <label for="name">Product name</label>
                 <form:input path="name" cssClass="form-control" />
@@ -26,6 +26,7 @@
                 <form:input path="price" cssClass="form-control" />
                 <form:errors path="price" cssStyle="color: red" />
             </div>
+            <form:hidden path="id"></form:hidden>
             <form:button class="btn btn-primary">Create</form:button>
         </form:form>
     </div>

@@ -8,19 +8,22 @@ import javax.validation.constraints.*;
 
 public class ProductModel {
 
+    private Long id;
     @NotBlank(message = "Names is required")
     private String name;
 
-    @Length(min = 10, max = 1000, message = "Between 10 and 100 symbols")
-    private String description;
+    @Length(min = 5, max = 1000, message = "Between 5 and 100 symbols")
+    private String description = "Some description";
 
     @NotNull(message = "Price is required")
     @DecimalMin(value = "0.1", inclusive = true, message = "Min value 0.1")
     private Double price;
 
     public ProductModel(Product entity) {
+        this.setId(entity.getId());
         this.setName(entity.getName());
         this.setDescription(entity.getDescription());
+        this.setPrice(entity.getPrice());
     }
 
     public ProductModel() {
@@ -48,5 +51,13 @@ public class ProductModel {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
