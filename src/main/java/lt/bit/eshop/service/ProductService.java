@@ -42,10 +42,20 @@ public class ProductService {
     }
 
     public List<ProductModel> getAllProducts() {
+        return this.getAllProducts(null);
+    }
+
+    public List<ProductModel> getAllProducts(String name) {
 
         Sort sort = new Sort(Sort.Direction.DESC, "price");
 
-        List<Product> products = (List<Product>) this.productRepository.findAll(sort);
+        List<Product> products;
+
+        if (name != null) {
+           products = this.productRepository.findByNameContaining(name);
+        } else {
+            products = this.productRepository.findAll(sort);
+        }
 
         return products.stream().map(ProductModel::new).collect(Collectors.toList());
     }

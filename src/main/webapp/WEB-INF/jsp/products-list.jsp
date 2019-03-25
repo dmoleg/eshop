@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title>Title</title>
@@ -14,6 +15,14 @@
 </head>
 <body>
     <div class="container-flud">
+        <div class="row">
+            <div class="col-12">
+                <form:form method="GET" modelAttribute="filterModel">
+                    <form:input path="name" />
+                    <form:button class="btn btn-primary">Search</form:button>
+                </form:form>
+            </div>
+        </div>
         <div class="row">
             <div class="col-2">
                 <ul class="list-group">
