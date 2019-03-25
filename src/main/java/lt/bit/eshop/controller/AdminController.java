@@ -2,9 +2,11 @@ package lt.bit.eshop.controller;
 
 import lt.bit.eshop.ProductNotFound;
 import lt.bit.eshop.form.CategoryModel;
+import lt.bit.eshop.form.FilterModel;
 import lt.bit.eshop.form.ProductModel;
 import lt.bit.eshop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,14 +52,17 @@ public class AdminController {
 
 
     @RequestMapping("/products")
-    public String products(Model model) {
+    public String products(@ModelAttribute FilterModel filterModel, Model model) {
 
         model.addAttribute("productModel", new ProductModel());
 
-        List<ProductModel> productModelList = this.productService.getAllProducts();
+
+        Sort sort = new Sort(Sort.Direction.fromString(filterModel.getSortDirection()), filterModel.getSortBy());
+        List<ProductModel> productModelList = this.productService.getAllProducts(filterModel.getName(), sort);
 
         model.addAttribute("products", productModelList);
         model.addAttribute("categories", productService.getCategories());
+        model.addAttribute("filterModel", filterModel);
 
         return "products-list";
     }

@@ -42,17 +42,15 @@ public class ProductService {
     }
 
     public List<ProductModel> getAllProducts() {
-        return this.getAllProducts(null);
+        Sort sort = new Sort(Sort.Direction.DESC, "price");
+        return this.getAllProducts(null, sort);
     }
 
-    public List<ProductModel> getAllProducts(String name) {
-
-        Sort sort = new Sort(Sort.Direction.DESC, "price");
-
+    public List<ProductModel> getAllProducts(String name, Sort sort) {
         List<Product> products;
 
         if (name != null) {
-           products = this.productRepository.findByNameContaining(name);
+           products = this.productRepository.findByNameContaining(name, sort);
         } else {
             products = this.productRepository.findAll(sort);
         }

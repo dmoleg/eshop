@@ -4,12 +4,15 @@ import lt.bit.eshop.entity.CategoryEntity;
 import lt.bit.eshop.form.FilterModel;
 import lt.bit.eshop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.SortedMap;
 
 @Controller
 @RequestMapping("/products")
@@ -23,7 +26,9 @@ public class ProductsController {
         model.addAttribute("categories", productService.getCategories());
         model.addAttribute("filterModel", filterModel);
 
-        model.addAttribute("products", productService.getAllProducts(filterModel.getName()));
+        Sort sort = new Sort(Sort.Direction.fromString(filterModel.getSortDirection()), filterModel.getSortBy());
+
+        model.addAttribute("products", productService.getAllProducts(filterModel.getName(), sort));
 
         return "products-list";
     }

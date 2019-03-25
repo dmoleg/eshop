@@ -2,6 +2,7 @@ package lt.bit.eshop.repository;
 
 import lt.bit.eshop.entity.CategoryEntity;
 import lt.bit.eshop.entity.Product;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -14,5 +15,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findByCategory(CategoryEntity entity);
 
-    List<Product> findByNameContaining(String name);
+    List<Product> findByCategoryAndNameContaining(CategoryEntity entity, String name);
+
+    List<Product> findByNameContaining(String name, Sort sort);
 }
