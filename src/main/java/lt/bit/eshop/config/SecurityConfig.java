@@ -1,19 +1,36 @@
 package lt.bit.eshop.config;
 
+import lt.bit.eshop.service.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(this.userDetailsService)
+                .passwordEncoder(encoder())
+                .and()
+                .authenticationProvider(authenticationProvider());
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -25,28 +42,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin();
     }
 
+
     @Bean
-    @Override
-    protected UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                    .username("user")
-                    .password("secret")
-                    .roles("USER")
-                    .build();
+    public DaoAuthenticationProvider authenticationProvider() {
+        final DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
 
-        UserDetails admin =
-                User.withDefaultPasswordEncoder()
-                    .username("admin")
-                    .password("admin")
-                    .roles("ADMIN", "USER")
-                    .build();
+        provider.setUserDetailsService(this.userDetailsService);
+        provider.setPasswordEncoder(encoder());
 
-        UserDetailsService userDetailsService = new InMemoryUserDetailsManager();
+        return provider;
+    }
 
-        ((InMemoryUserDetailsManager) userDetailsService).createUser(user);
-        ((InMemoryUserDetailsManager) userDetailsService).createUser(admin);
-
-        return userDetailsService;
+    @Bean
+    public PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder(11);
     }
 }
