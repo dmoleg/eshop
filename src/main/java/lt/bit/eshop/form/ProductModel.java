@@ -2,9 +2,10 @@ package lt.bit.eshop.form;
 
 import lt.bit.eshop.entity.Product;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class ProductModel {
 

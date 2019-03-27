@@ -1,6 +1,9 @@
 package lt.bit.eshop.entity;
 
+import lt.bit.eshop.service.lt.bit.eshop.entity.Role;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -16,6 +19,10 @@ public class UserEntity {
     private String password;
 
     private boolean enabled = true;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "roel_id")})
+    private Set<Role> roles;
 
     public UserEntity() {
     }
@@ -64,5 +71,13 @@ public class UserEntity {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
