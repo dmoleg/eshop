@@ -2,9 +2,11 @@ package lt.bit.eshop.form;
 
 import lt.bit.eshop.entity.UserEntity;
 import lt.bit.eshop.validation.ExistUsername;
+import lt.bit.eshop.validation.PasswordMatches;
 
 import javax.validation.constraints.NotBlank;
 
+@PasswordMatches
 public class UserModel {
 
     @NotBlank(message = "User name is required")
@@ -14,6 +16,8 @@ public class UserModel {
     private String username;
     @NotBlank
     private String password;
+    @NotBlank
+    private String matchPassword;
 
     public UserModel() {
     }
@@ -45,5 +49,13 @@ public class UserModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getMatchPassword() {
+        return matchPassword;
+    }
+
+    public void setMatchPassword(String matchPassword) {
+        this.matchPassword = matchPassword;
     }
 }

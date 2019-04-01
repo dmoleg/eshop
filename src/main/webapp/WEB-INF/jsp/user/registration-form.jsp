@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="for" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title>Registration</title>
@@ -23,6 +24,13 @@
                 <label for="password">Password</label>
                 <form:password path="password" cssClass="form-control" />
                 <form:errors path="password" cssStyle="color: red" />
+            </div>
+            <div class="form-group">
+                <label for="matchPassword">Confirm password</label>
+                <form:password path="matchPassword" cssClass="form-control" />
+                <c: if test="${not empty error}">
+                    <span style="color: red">${error}</span>
+                </c:>
             </div>
             <form:button class="btn btn-primary">Submit</form:button>
         </form:form>

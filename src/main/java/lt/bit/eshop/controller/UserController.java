@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/users")
@@ -33,6 +35,17 @@ public class UserController {
             userService.createNewUser(userModel);
             return "redirect:/login";
         }
+
+
+        String matchError = bindingResult.getAllErrors().stream()
+                    .filter(e -> e.getObjectName().equals("userModel"))
+                    .map(e -> e.getDefaultMessage())
+                    .findFirst()
+                    .orElse("");
+
+
+        model.addAttribute("error", matchError);
+
         return "user/registration-form";
     }
 }
