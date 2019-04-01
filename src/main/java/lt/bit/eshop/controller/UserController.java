@@ -36,16 +36,6 @@ public class UserController {
             return "redirect:/login";
         }
 
-
-        String matchError = bindingResult.getAllErrors().stream()
-                    .filter(e -> e.getObjectName().equals("userModel"))
-                    .map(e -> e.getDefaultMessage())
-                    .findFirst()
-                    .orElse("");
-
-
-        model.addAttribute("error", matchError);
-
         return "user/registration-form";
     }
 }

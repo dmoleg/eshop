@@ -28,9 +28,7 @@
             <div class="form-group">
                 <label for="matchPassword">Confirm password</label>
                 <form:password path="matchPassword" cssClass="form-control" />
-                <c: if test="${not empty error}">
-                    <span style="color: red">${error}</span>
-                </c:>
+                <form:errors path="matchPassword" cssStyle="color: red" />
             </div>
             <form:button class="btn btn-primary">Submit</form:button>
         </form:form>
