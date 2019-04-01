@@ -1,6 +1,7 @@
 package lt.bit.eshop.form;
 
 import lt.bit.eshop.entity.UserEntity;
+import lt.bit.eshop.validation.ExistUsername;
 
 import javax.validation.constraints.NotBlank;
 
@@ -9,6 +10,7 @@ public class UserModel {
     @NotBlank(message = "User name is required")
     private String name;
     @NotBlank
+    @ExistUsername
     private String username;
     @NotBlank
     private String password;
