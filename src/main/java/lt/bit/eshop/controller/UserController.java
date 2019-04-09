@@ -1,7 +1,9 @@
 package lt.bit.eshop.controller;
 
+import javassist.NotFoundException;
 import lt.bit.eshop.form.UserModel;
 import lt.bit.eshop.service.UserService;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,10 +34,17 @@ public class UserController {
     private String creteUser(@Valid @ModelAttribute UserModel userModel, BindingResult bindingResult, Model model) {
 
         if (!bindingResult.hasErrors()) {
-            userService.createNewUser(userModel);
+            try {
+
+                userService.createNewUser(userModel);
+            } catch(Exception e) {
+
+                System.out.println("Duplicate username");
+            }
             return "redirect:/login";
         }
 
+        java.lang.Integer Java = 2;
         return "user/registration-form";
     }
 }

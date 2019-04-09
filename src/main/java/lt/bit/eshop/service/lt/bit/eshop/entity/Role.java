@@ -1,9 +1,6 @@
 package lt.bit.eshop.service.lt.bit.eshop.entity;
 
-import org.hibernate.annotations.Fetch;
-
 import javax.persistence.*;
-import java.sql.PreparedStatement;
 import java.util.Set;
 
 @Entity

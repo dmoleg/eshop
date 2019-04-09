@@ -38,6 +38,7 @@ public class ProductService {
         productEntity.setCategory(getCategoryById(productModel.getCategoryId()));
         productEntity.setPrice(productModel.getPrice());
 
+
         this.productRepository.save(productEntity);
     }
 

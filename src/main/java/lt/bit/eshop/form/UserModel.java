@@ -12,8 +12,9 @@ public class UserModel {
     @NotBlank(message = "User name is required")
     private String name;
     @NotBlank
-    @ExistUsername
-    private String username;
+//    @ExistUsername
+    private String username = "Jonas";
+
     @NotBlank
     private String password;
     @NotBlank
@@ -25,6 +26,14 @@ public class UserModel {
     public UserModel(UserEntity userEntity) {
         this.name = userEntity.getName();
         this.username = userEntity.getUsername();
+    }
+
+    public String getName(String name) {
+        return this.name;
+    }
+
+    public String getName(Integer name) {
+        return this.name;
     }
 
     public String getName() {

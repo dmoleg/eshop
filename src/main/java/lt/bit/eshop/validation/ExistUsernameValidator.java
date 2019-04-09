@@ -1,6 +1,7 @@
 package lt.bit.eshop.validation;
 
 import lt.bit.eshop.service.UserService;
+import lt.bit.eshop.validation.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
@@ -15,6 +16,12 @@ public class ExistUsernameValidator implements ConstraintValidator<ExistUsername
    }
 
    public boolean isValid(String username, ConstraintValidatorContext context) {
-      return !userService.getUserByUsername(username).isPresent();
+      try {
+         userService.getUserByUsername(username);
+      } catch (UserNotFoundException e) {
+          return true;
+      }
+
+      return false;
    }
 }

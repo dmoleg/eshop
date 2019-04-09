@@ -3,12 +3,16 @@ package lt.bit.eshop.service;
 import lt.bit.eshop.entity.UserEntity;
 import lt.bit.eshop.form.UserModel;
 import lt.bit.eshop.repository.UserRepository;
+import lt.bit.eshop.validation.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ *
+ */
 @Service
 public class UserService {
 
@@ -31,8 +35,15 @@ public class UserService {
     }
 
 
-    public Optional<UserEntity> getUserByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public UserModel getUserByUsername(String username) throws UserNotFoundException {
+        Optional<UserEntity> userEntity = userRepository.findByUsername(username);
+
+        if (!userEntity.isPresent()) {
+            throw new UserNotFoundException("User not found");
+        }
+
+
+        return new UserModel(userEntity.get());
     }
 
 
