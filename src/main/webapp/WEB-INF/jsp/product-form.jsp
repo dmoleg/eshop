@@ -10,7 +10,7 @@
 <h1>Product form</h1>
 <div class="container">
     <div class="row">
-        <form:form method="POST" action="/admin/products" modelAttribute="productModel">
+        <form:form method="POST" action="/admin/products" modelAttribute="productModel" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="name">Product name</label>
                 <form:input path="name" cssClass="form-control" />
@@ -29,6 +29,10 @@
             <div class="form-group">
                 <label for="categoryId">Product category</label>
                 <form:select path="categoryId" items="${categories}" itemLabel="name" itemValue="id"/>
+            </div>
+            <div class="form-group">
+                <label for="productImage">Product image</label>
+                <input type="file" name="productImage" id="productImage" />
             </div>
             <form:hidden path="id" />
             <form:button class="btn btn-primary">Create</form:button>

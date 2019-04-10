@@ -4,16 +4,17 @@ import lt.bit.eshop.ProductNotFound;
 import lt.bit.eshop.form.CategoryModel;
 import lt.bit.eshop.form.FilterModel;
 import lt.bit.eshop.form.ProductModel;
+import lt.bit.eshop.service.FIleStorageService;
 import lt.bit.eshop.service.ProductService;
+import lt.bit.eshop.validation.exceptions.FileFormatException;
+import lt.bit.eshop.validation.exceptions.StorageException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -25,11 +26,14 @@ public class AdminController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private FIleStorageService storageService;
 
     @RequestMapping("/products/create")
     public String productForm(Model model) {
 
         model.addAttribute("productModel", new ProductModel());
+        model.addAttribute("categories", productService.getCategories());
 
         return "product-form";
     }
@@ -68,11 +72,13 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/products", method = RequestMethod.POST)
-    public String createProduct(@Valid @ModelAttribute ProductModel productModel, BindingResult bindingResult, Model model) {
+    public String createProduct(@Valid @ModelAttribute ProductModel productModel, @RequestParam("productImage") MultipartFile file, BindingResult bindingResult, Model model) throws FileFormatException, StorageException {
 
         if (!bindingResult.hasErrors()) {
             productService.createProduct(productModel);
             model.addAttribute("productModel", new ProductModel());
+
+            storageService.store(file);
 
             return "redirect:products";
         }
