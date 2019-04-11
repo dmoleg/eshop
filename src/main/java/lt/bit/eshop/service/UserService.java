@@ -1,13 +1,17 @@
 package lt.bit.eshop.service;
 
+import lt.bit.eshop.config.CustomUserDetails;
 import lt.bit.eshop.entity.UserEntity;
 import lt.bit.eshop.form.UserModel;
 import lt.bit.eshop.repository.UserRepository;
 import lt.bit.eshop.validation.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.Optional;
 
 /**
@@ -44,6 +48,13 @@ public class UserService {
 
 
         return new UserModel(userEntity.get());
+    }
+
+
+    public static UserEntity getCurrentUser(){
+        CustomUserDetails authentication = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        return authentication.getUser();
     }
 
 

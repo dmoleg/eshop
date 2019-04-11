@@ -22,12 +22,15 @@ public class ProductModel {
 
     private Long categoryId;
 
+    private String imageName;
+
     public ProductModel(Product entity) {
         this.setId(entity.getId());
         this.setName(entity.getName());
         this.setDescription(entity.getDescription());
         this.setPrice(entity.getPrice());
         this.setCategoryId(entity.getCategory().getId());
+        this.setImageName(entity.getImageName());
     }
 
     public ProductModel() {
@@ -71,5 +74,13 @@ public class ProductModel {
 
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 }

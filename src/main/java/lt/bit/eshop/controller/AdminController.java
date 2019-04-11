@@ -1,6 +1,7 @@
 package lt.bit.eshop.controller;
 
 import lt.bit.eshop.ProductNotFound;
+import lt.bit.eshop.entity.Product;
 import lt.bit.eshop.form.CategoryModel;
 import lt.bit.eshop.form.FilterModel;
 import lt.bit.eshop.form.ProductModel;
@@ -72,13 +73,16 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/products", method = RequestMethod.POST)
-    public String createProduct(@Valid @ModelAttribute ProductModel productModel, @RequestParam("productImage") MultipartFile file, BindingResult bindingResult, Model model) throws FileFormatException, StorageException {
+    public String createProduct(@Valid @ModelAttribute ProductModel productModel, @RequestParam("productImage") MultipartFile file, BindingResult bindingResult, Model model) throws FileFormatException, StorageException, ProductNotFound {
 
         if (!bindingResult.hasErrors()) {
-            productService.createProduct(productModel);
+
+            Product product = productService.createProduct(productModel);
             model.addAttribute("productModel", new ProductModel());
 
-            storageService.store(file);
+            String imageName = storageService.store(file, productService.consturctImageName(product.getId()));
+
+            productService.attachImage(product.getId(), imageName);
 
             return "redirect:products";
         }

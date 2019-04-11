@@ -8,7 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
+
 <head>
     <title>Title</title>
     <link href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
@@ -74,10 +76,24 @@
                     <c:forEach items="${products}" var="product">
                         <div class="col-2">
                             <div class="card">
+                                <c:if test="${not empty product.imageName}">
+                                    <img src="/images/${product.imageName}" class="card-img-top" alt="${product.name}">
+                                </c:if>
+                                <c:if test="${empty product.imageName}">
+                                    <svg class="bd-placeholder-img card-img-top" width="100%" height="100"
+                                         xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"
+                                         focusable="false" role="img" aria-label="Placeholder: Image cap"><title>
+                                        Placeholder</title>
+                                        <rect width="100%" height="100%" fill="#868e96"></rect>
+                                        <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
+                                    </svg>
+                                </c:if>
                                 <div class="card-body">
                                     <h5 class="card-title">${product.name}</h5>
                                     <div class="badge badge-info">${product.price}</div>
-                                    <a href="/admin/products/edit/${product.id}">Edit</a>
+                                    <sec:authorize access="hasRole('ADMIN')">
+                                        <a href="/admin/products/edit/${product.id}">Edit</a>
+                                    </sec:authorize>
                                 </div>
                             </div>
                         </div>

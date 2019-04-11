@@ -10,9 +10,11 @@ import lt.bit.eshop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,7 +30,7 @@ public class ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public void createProduct(ProductModel productModel) {
+    public Product createProduct(ProductModel productModel) {
 
         Product productEntity = new Product();
 
@@ -39,7 +41,31 @@ public class ProductService {
         productEntity.setPrice(productModel.getPrice());
 
 
-        this.productRepository.save(productEntity);
+        return this.productRepository.save(productEntity);
+    }
+
+
+    public String consturctImageName(Long id) {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("product_");
+        builder.append(id.toString());
+
+        return builder.toString();
+    }
+
+    public void attachImage(Long productId, String imageName) throws ProductNotFound {
+        Optional<Product> optional = this.productRepository.findById(productId);
+
+        if (!optional.isPresent()) {
+            throw new ProductNotFound("Product " + productId + " not found");
+        }
+
+        Product product = optional.get();
+
+        product.setImageName(imageName);
+
+        this.productRepository.save(product);
     }
 
     public List<ProductModel> getAllProducts() {

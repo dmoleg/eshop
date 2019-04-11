@@ -21,6 +21,8 @@ public class Product {
     @ManyToOne
     private CategoryEntity category;
 
+    private String imageName;
+
     public Long getId() {
         return id;
     }
@@ -59,5 +61,13 @@ public class Product {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 }
